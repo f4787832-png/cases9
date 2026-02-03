@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Главная</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #1a0000; color: #ff4444; }
+    button { margin: 10px; padding: 15px 30px; font-size: 20px; border-radius: 10px; border: none; cursor: pointer; background: #660000; color: white; }
+    button:hover { background: #990000; }
+  </style>
+</head>
+<body>
+  <h1>🩸 Добро пожаловать в приложение</h1>
+  <button onclick="location.href='cases.html'">Кейсы</button>
+  <button onclick="alert('Профиль пока не реализован')">Профиль</button>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Кейсы</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1a0000; color: #ff4444; text-align: center; padding: 30px; }
+    .case-list { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+    .case-item { cursor: pointer; border: 3px solid #ff4444; border-radius: 15px; overflow: hidden; width: 200px; background: #330000; transition: transform 0.3s ease; }
+    .case-item:hover { transform: scale(1.1); }
+    .case-item img { width: 100%; display: block; }
+    .case-item h3 { margin: 10px 0; }
+    button.back { margin-top: 30px; padding: 10px 25px; font-size: 18px; border-radius: 10px; background: #660000; border: none; color: white; cursor: pointer; }
+    button.back:hover { background: #990000; }
+  </style>
+</head>
+<body>
+  <h1>Выберите кейс</h1>
+  <div class="case-list">
+    <div class="case-item" onclick="location.href='case-blood-night.html'">
+      <img src="https://i.imgur.com/8oXfG7x.png" alt="Кровавая ночь" />
+      <h3>Кровавая ночь</h3>
+    </div>
+    <!-- Можно добавить другие кейсы тут -->
+  </div>
+  <button class="back" onclick="location.href='index.html'">Назад</button>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8" />
+<title>Кровавая ночь — кейс</title>
+<style>
+  body {
+    background: #1a0000;
+    color: #ff4444;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 40px;
+  }
+  #case-container {
+    margin: 20px auto;
+    width: 360px;
+    height: 120px;
+    overflow: hidden;
+    border: 3px solid #ff4444;
+    border-radius: 15px;
+    background: #330000;
+    position: relative;
+  }
+  #case-items {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 120px;
+    transition: left 4s cubic-bezier(0.33, 1, 0.68, 1);
+  }
+  .case-item {
+    flex: 0 0 120px;
+    height: 120px;
+    line-height: 120px;
+    font-size: 0;
+    user-select: none;
+    border-right: 2px solid #ff4444;
+  }
+  .case-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  #spin-button {
+    margin-top: 30px;
+    padding: 15px 30px;
+    font-size: 20px;
+    background: #660000;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+  }
+  #spin-button:hover {
+    background: #990000;
+  }
+  #result {
+    margin-top: 30px;
+    font-size: 22px;
+  }
+  button.back {
+    margin-top: 30px;
+    padding: 10px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+    background: #660000;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  button.back:hover {
+    background: #990000;
+  }
+</style>
+</head>
+<body>
+
+<h1>🩸 Кровавая ночь — кейс</h1>
+<p>Нажми кнопку, чтобы открыть кейс и получить NFT!</p>
+
+<div id="case-container">
+  <div id="case-items"></div>
+</div>
+
+<button id="spin-button">Крутить кейс</button>
+<div id="result"></div>
+<button class="back" onclick="location.href='cases.html'">Назад к кейсам</button>
+
+<script>
+  const nftItems = [
+    { name: "Bloody Mask", rarity: "Common", img: "https://i.imgur.com/oZp9M6G.png" },
+    { name: "Crimson Blade", rarity: "Rare", img: "https://i.imgur.com/3KdKfZP.png" },
+    { name: "Scarlet Demon", rarity: "Epic", img: "https://i.imgur.com/xORqEjD.png" },
+    { name: "Blood Moon", rarity: "Legendary", img: "https://i.imgur.com/4JYXj8k.png" }
+  ];
+
+  const caseItemsEl = document.getElementById('case-items');
+  const spinBtn = document.getElementById('spin-button');
+  const resultEl = document.getElementById('result');
+
+  function populateCaseItems() {
+    caseItemsEl.innerHTML = '';
+    // Делаем 30 элементов, повторяющихся циклично, для плавной прокрутки
+    for (let i = 0; i < 30; i++) {
+      const nft = nftItems[i % nftItems.length];
+      const div = document.createElement('div');
+      div.className = 'case-item';
+      div.innerHTML = `<img src="${nft.img}" alt="${nft.name}" title="${nft.name} (${nft.rarity})" />`;
+      caseItemsEl.appendChild(div);
+    }
+  }
+
+  populateCaseItems();
+
+  let isSpinning = false;
+
+  spinBtn.addEventListener('click', () => {
+    if (isSpinning) return;
+    isSpinning = true;
+    resultEl.textContent = '';
+    
+    const prizeIndex = Math.floor(Math.random() * nftItems.length);
+    const totalItems = 30;
+    const itemWidth = 120;
+    const spins = 4;
+    const finalPosition = -((totalItems * spins + prizeIndex) * itemWidth);
+
+    caseItemsEl.style.transition = 'left 5s cubic-bezier(0.33, 1, 0.68, 1)';
+    caseItemsEl.style.left = finalPosition + 'px';
+
+    caseItemsEl.addEventListener('transitionend', function handler() {
+      caseItemsEl.style.transition = 'none';
+      const resetPosition = -((prizeIndex) * itemWidth);
+      caseItemsEl.style.left = resetPosition + 'px';
+
+      resultEl.textContent = `🎉 Поздравляем! Выпал NFT: ${nftItems[prizeIndex].name} (${nftItems[prizeIndex].rarity})`;
+      isSpinning = false;
+      caseItemsEl.removeEventListener('transitionend', handler);
+    }, { once: true });
+  });
+</script>
+
+</body>
+</html>
+
